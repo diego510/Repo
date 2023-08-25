@@ -122,10 +122,13 @@ def hello():
 def anime():
     return jsonify(db)
 
-@app.route("/anime/int:<id>", methods=["GET"])
-def anime(id):
-    
-    return "TRES"
+@app.route("/anime/<int:id>", methods=["GET"])
+def animeId(id):
+    anime_id = next((anime for anime in db if anime['id'] == int(id)), None)
+    if anime_id:
+        return jsonify(anime_id)
+    else:
+        return "Anime no encontrado", 404
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
